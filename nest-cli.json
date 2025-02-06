@@ -10,7 +10,7 @@
       "compilerOptions": {
         "assets": [
           {
-            "include": "../dependencies/workaxle/common/*.proto",
+            "include": "../dependencies/invest-core/common/*.proto",
             "outDir": "dist/libs/proto-schema"
           },
           {
@@ -18,11 +18,11 @@
             "outDir": "dist/libs/proto-schema"
           },
           {
-            "include": "../internal/workaxle/svc/**/*.proto",
+            "include": "../internal/invest-core/svc/**/*.proto",
             "outDir": "dist/libs/proto-schema"
           },
           {
-            "include": "../external/workaxle/svc/**/*.proto",
+            "include": "../external/invest-core/svc/**/*.proto",
             "outDir": "dist/libs/proto-schema"
           }
         ]

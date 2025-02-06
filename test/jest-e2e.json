@@ -14,8 +14,8 @@
   "moduleNameMapper": {
     "@proto-schema/(.*)": "<rootDir>/../libs/proto-schema/gen/$1",
     "@proto-schema": "<rootDir>/../libs/proto-schema/gen",
-    "@workaxle/shared/(.*)": "<rootDir>/../libs/shared/$1",
-    "@workaxle/shared": "<rootDir>/../libs/shared"
+    "@invest-core/shared/(.*)": "<rootDir>/../libs/shared/$1",
+    "@invest-core/shared": "<rootDir>/../libs/shared"
   },
   "testTimeout": 20000,
   "maxWorkers": 1,

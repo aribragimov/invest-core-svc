@@ -14,7 +14,7 @@ function buildProtoPath(serviceName: string | undefined) {
   if (!serviceName) {
     throw new Error('Unknown service name');
   }
-  const protoDirectoryPath = join(process.cwd(), `/dist/libs/proto-schema/workaxle/svc/${serviceName}/`);
+  const protoDirectoryPath = join(process.cwd(), `/dist/libs/proto-schema/invest-core/svc/${serviceName}/`);
   const protoNames = proto[serviceName];
 
   return protoNames.map(name => join(protoDirectoryPath, name));

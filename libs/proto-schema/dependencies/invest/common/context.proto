@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package invest.common;
+
+message RequestContext {
+  string source_svc = 1;
+  optional string user_id = 2;
+  optional string company_id = 3;
+}
