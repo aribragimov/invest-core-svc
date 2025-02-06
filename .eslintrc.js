@@ -1,25 +1,79 @@
+const prettierConfig = require('./.prettierrc.js');
+
+
 module.exports = {
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: 'tsconfig.json',
-    tsconfigRootDir: __dirname,
-    sourceType: 'module',
+    project: "tsconfig.json",
+    sourceType: "module"
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: [
+    'prettier',
+    '@typescript-eslint/eslint-plugin',
+    'simple-import-sort'
+  ],
   extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+    'airbnb-base',
+    'airbnb-typescript/base',
+    'prettier',
   ],
   root: true,
   env: {
     node: true,
-    jest: true,
+    jest: true
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
+    'prettier/prettier': [
+      2,
+      prettierConfig,
+    ],
+    '@typescript-eslint/no-floating-promises':
+      'error',
+    '@typescript-eslint/consistent-type-assertions': [
+      'error',
+      { assertionStyle: 'never' },
+    ],
+    'import/prefer-default-export': 0,
+    'class-methods-use-this': 0,
+    'implicit-arrow-linebreak': 0,
+    'operator-linebreak': 0,
+    'import/order': 0,
+    'sort-imports': 0,
+    'simple-import-sort/exports': 1,
+    'simple-import-sort/imports': [
+      2,
+      {
+        groups: [
+          // Nest modules
+          ['^@nestjs'],
+          // Side effect imports
+          ['^\\u0000'],
+          // Packages
+          ['^@?[a-zA-Z0-9]'],
+          // own packages
+          ['^@proto-schema'],
+          //tests
+          ['^test(/.*|$)'],
+          // Internal base modules
+          ['^src/config(/.*|$)'],
+          ['^src/domain(/.*|$)'],
+          ['^src/health(/.*|$)'],
+          ['^src/infra(/.*|$)'],
+          // Internal packages
+          ['^src/common(/.*|$)'],
+          ['^src/common/decorators(/.*|$)'],
+          ['^src/common/dto(/.*|$)'],
+          ['^src/common/helpers(/.*|$)'],
+          ['^src/common/interceptors(/.*|$)'],
+          ['^src/common/interfaces(/.*|$)'],
+          ['^src/common/types(/.*|$)'],
+          // Other relative imports. Put same-folder imports and `.` last
+          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+          // Parent imports. Put `..` last
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+        ],
+      },
+    ],
   },
 };

@@ -1,9 +1,23 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
+  "modulePaths": ["<rootDir>/.."],
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
-  }
+  },
+  "moduleNameMapper": {
+    "@proto-schema/(.*)": "<rootDir>/../libs/proto-schema/gen/$1",
+    "@proto-schema": "<rootDir>/../libs/proto-schema/gen",
+    "@workaxle/shared/(.*)": "<rootDir>/../libs/shared/$1",
+    "@workaxle/shared": "<rootDir>/../libs/shared"
+  },
+  "testTimeout": 20000,
+  "maxWorkers": 1,
+  "setupFilesAfterEnv": ["jest-extended/all"]
 }

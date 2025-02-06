@@ -1,8 +1,32 @@
 {
-  "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
-  "compilerOptions": {
-    "deleteOutDir": true
+  "projects": {
+    "proto-schema": {
+      "type": "library",
+      "root": "libs/proto-schema",
+      "entryFile": "index",
+      "sourceRoot": "libs/proto-schema/gen",
+      "compilerOptions": {
+        "assets": [
+          {
+            "include": "../dependencies/workaxle/common/*.proto",
+            "outDir": "dist/libs/proto-schema"
+          },
+          {
+            "include": "../dependencies/google/**/*.proto",
+            "outDir": "dist/libs/proto-schema"
+          },
+          {
+            "include": "../internal/workaxle/svc/**/*.proto",
+            "outDir": "dist/libs/proto-schema"
+          },
+          {
+            "include": "../external/workaxle/svc/**/*.proto",
+            "outDir": "dist/libs/proto-schema"
+          }
+        ]
+      }
+    }
   }
 }
