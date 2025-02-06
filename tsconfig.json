@@ -6,16 +6,31 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
+    "target": "es2019",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noImplicitAny": false,
+    "strict": true,
+    "strictPropertyInitialization": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@proto-schema": [
+        "./libs/proto-schema/gen"
+      ],
+      "@proto-schema/*": [
+        "./libs/proto-schema/gen/*"
+      ],
+    }
+  },
+  "include": [
+    "experimentalDecorators",
+    "**/*"
+  ],
+  "files": ["global.d.ts"]
 }
