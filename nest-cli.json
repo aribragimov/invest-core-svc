@@ -10,7 +10,7 @@
       "compilerOptions": {
         "assets": [
           {
-            "include": "../dependencies/invest-core/common/*.proto",
+            "include": "../dependencies/invest/common/*.proto",
             "outDir": "dist/libs/proto-schema"
           },
           {
@@ -18,11 +18,11 @@
             "outDir": "dist/libs/proto-schema"
           },
           {
-            "include": "../internal/invest-core/svc/**/*.proto",
+            "include": "../internal/invest/svc/**/*.proto",
             "outDir": "dist/libs/proto-schema"
           },
           {
-            "include": "../external/invest-core/svc/**/*.proto",
+            "include": "../external/invest/svc/**/*.proto",
             "outDir": "dist/libs/proto-schema"
           }
         ]

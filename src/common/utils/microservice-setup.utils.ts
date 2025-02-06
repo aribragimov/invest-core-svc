@@ -34,7 +34,7 @@ export async function microserviceSetup({
       transport: Transport.GRPC,
       options: {
         url: `${hostname}:${appConfig.get('service.ports.grpc')}`,
-        package: `invest-core.svc.${appConfig.get('service.name')}`,
+        package: `invest.svc.${appConfig.get('service.name')}`,
         protoPath,
         loader: {
           includeDirs: [join(process.cwd(), '/dist/libs/proto-schema')],

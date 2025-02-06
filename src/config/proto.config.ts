@@ -1,25 +1,27 @@
 import { registerAs } from '@nestjs/config';
 
+import * as fs from 'fs';
 import { join } from 'path';
 
-interface Proto {
-  [key: string]: Array<string>;
-}
+import { PROJECT_ROOT_PATH } from 'src/common/constants';
 
-const proto: Proto = {
-  invest: ['example/api.proto'],
-};
+function buildProtoPaths(serviceName: string | undefined): string[] {
+  if (!serviceName) throw new Error('Unknown service name');
 
-function buildProtoPath(serviceName: string | undefined) {
-  if (!serviceName) {
-    throw new Error('Unknown service name');
+  const protoDirectoryPath = `${PROJECT_ROOT_PATH}/dist/libs/proto-schema/invest/svc/${serviceName}/`;
+
+  let protoPaths: string[] = [];
+
+  try {
+    const files = fs.readdirSync(protoDirectoryPath);
+    protoPaths = files.map(file => join(protoDirectoryPath, file));
+  } catch (err) {
+    throw new Error(`Error reading the directory: ${err}`);
   }
-  const protoDirectoryPath = join(process.cwd(), `/dist/libs/proto-schema/invest-core/svc/${serviceName}/`);
-  const protoNames = proto[serviceName];
 
-  return protoNames.map(name => join(protoDirectoryPath, name));
+  return protoPaths;
 }
 
 export default registerAs('proto', () => ({
-  paths: buildProtoPath(process.env.SERVICE_NAME),
+  paths: buildProtoPaths(process.env.SERVICE_NAME),
 }));

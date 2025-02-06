@@ -13,9 +13,7 @@
   },
   "moduleNameMapper": {
     "@proto-schema/(.*)": "<rootDir>/../libs/proto-schema/gen/$1",
-    "@proto-schema": "<rootDir>/../libs/proto-schema/gen",
-    "@invest-core/shared/(.*)": "<rootDir>/../libs/shared/$1",
-    "@invest-core/shared": "<rootDir>/../libs/shared"
+    "@proto-schema": "<rootDir>/../libs/proto-schema/gen"
   },
   "testTimeout": 20000,
   "maxWorkers": 1,

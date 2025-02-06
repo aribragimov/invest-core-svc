@@ -7,14 +7,4 @@ export default registerAs('service', () => ({
   },
   name: process.env.SERVICE_NAME,
   databaseUrl: process.env.DATABASE_URL,
-  sentry: {
-    dsn: process.env.SENTRY_DSN,
-    env: process.env.SENTRY_ENVIRONMENT,
-  },
-  rmqUrl: process.env.RMQ_URL,
-  outbox: {
-    publisher: {
-      enabled: process.env.OUTBOX_PUBLISHER_ENABLED !== 'false',
-    },
-  },
 }));

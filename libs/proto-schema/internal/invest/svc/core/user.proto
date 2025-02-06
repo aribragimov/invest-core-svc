@@ -1,9 +1,32 @@
 syntax = "proto3";
 
-package invest.svc.user;
+package invest.svc.core;
 
-message QQQwe {
-  string source_svc = 1;
-  optional string user_id = 2;
-  optional string company_id = 3;
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+service UserService {
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+}
+
+// ============================================================================
+// GetUser
+// ============================================================================
+message GetUserRequest {
+  string id = 1;
+}
+
+message GetUserResponse {
+  google.rpc.Status status = 1;
+  optional User user = 2;
+}
+
+// ============================================================================
+// User
+// ============================================================================
+message User {
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
 }

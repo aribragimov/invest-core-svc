@@ -8,7 +8,7 @@ import { randomUUID } from 'crypto';
 import { join } from 'path';
 import { AppModule } from 'src/app.module';
 
-import * as ProtoSchema from '@proto-schema/invest/user';
+import * as ProtoSchema from '@proto-schema/invest/svc/core';
 
 import { microserviceSetup } from 'src/common/utils/microservice-setup.utils';
 
@@ -30,7 +30,7 @@ export async function initApp(): Promise<TestApp> {
           useFactory: async (configService: ConfigService) => ({
             transport: Transport.GRPC,
             options: {
-              package: 'invest-core.svc.setsvcname',
+              package: 'invest.svc.setsvcname',
               protoPath: configService.get('proto.paths'),
               url: 'localhost:5001',
               loader: {
