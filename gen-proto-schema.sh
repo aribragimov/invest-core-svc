@@ -15,11 +15,15 @@ protoc \
   -I=${SRC_DIR}/dependencies \
   -I=${SRC_DIR}/internal \
   ${SRC_DIR}/dependencies/**/**/*.proto \
-  ${SRC_DIR}/internal/**/**/*.proto \
+  ${SRC_DIR}/internal/**/**/**/*.proto \
 
 
-for dir in $DEST_DIR/invest/*
+for dir in $DEST_DIR/invest/common $DEST_DIR/invest/svc/* $DEST_DIR/invest/svc/**/*
 do
+  if [[ -f $dir ]]; then
+    continue
+  fi
+
   touch $dir/index.ts
   cat /dev/null > $dir/index.ts
 

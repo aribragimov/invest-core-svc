@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
-import * as ProtoSchema from '@proto-schema/invest/user';
+import * as ProtoSchema from '@proto-schema/invest/svc/core';
 
 import { microserviceSetup } from './common/utils/microservice-setup.utils';
 import { AppModule } from './app.module';
