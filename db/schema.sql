@@ -94,11 +94,12 @@ CREATE TABLE public.users (
     created_at timestamp(3) with time zone DEFAULT now() NOT NULL,
     updated_at timestamp(3) with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp(3) with time zone,
-    first_name character varying(100) NOT NULL,
-    last_name character varying(100) NOT NULL,
-    email character varying(250) NOT NULL,
-    login character varying(100) NOT NULL,
-    password_hash bytea NOT NULL
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    email character varying(50) NOT NULL,
+    login character varying(50) NOT NULL,
+    password_hash bytea NOT NULL,
+    birthdate date NOT NULL
 );
 
 
