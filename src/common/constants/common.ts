@@ -18,7 +18,7 @@ function findProjectRootPath(startDir: string) {
 export const PROJECT_ROOT_PATH = findProjectRootPath(process.cwd());
 
 export const PROTO_SCHEMA_PATH = `${PROJECT_ROOT_PATH}/dist/libs/proto-schema`;
-export const BASE_PATH = `${PROTO_SCHEMA_PATH}/workaxle/svc`;
+export const BASE_PATH = `${PROTO_SCHEMA_PATH}/invest/svc`;
 
 export function grpcConfig(protoSchema, protoSchemaPath) {
   return {
