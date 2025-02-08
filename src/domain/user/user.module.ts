@@ -3,12 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CoreRpcClientService } from 'libs/shared';
 
+import { SvcConfigModule } from 'src/config';
+
 import { UserController } from './user.controller';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity]), SvcConfigModule],
   providers: [UserService, CoreRpcClientService, Logger],
   exports: [UserService],
   controllers: [UserController],

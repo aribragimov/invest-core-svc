@@ -5,10 +5,10 @@ import { BaseEntity } from 'src/common';
 @Entity({ name: 'users' })
 export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 50 })
-  public first_name: string;
+  public firstName: string;
 
   @Column({ type: 'varchar', length: 50 })
-  public last_name: string;
+  public lastName: string;
 
   @Column({ type: 'varchar', length: 50, unique: true })
   public email: string;
@@ -17,8 +17,8 @@ export class UserEntity extends BaseEntity {
   public login: string;
 
   @Column({ type: 'bytea' })
-  public password_hash: string;
+  public passwordHash: string;
 
   @Column({ type: 'date' })
-  public birthdate: Date;
+  public birthdate: string;
 }

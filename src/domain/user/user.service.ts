@@ -1,40 +1,58 @@
 import { Injectable } from '@nestjs/common';
 
+import * as bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
+import { toNumber } from 'lodash';
 import { DataSource, QueryRunner } from 'typeorm';
 
-import { dateMessageToDate, getRepository } from 'src/common/helpers';
+import { SvcConfigService } from 'src/config';
 
-import { CreateUserDto } from './dto';
+import { dateMessageToDbDate, getRepository } from 'src/common/helpers';
+
+import { CreateUserDto, UpdateUserPayloadDto } from './dto';
 import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly datasource: DataSource) {}
+  constructor(private readonly datasource: DataSource, private readonly svcConfigService: SvcConfigService) {}
 
   public async getById(id: string, queryRunner?: QueryRunner): Promise<UserEntity | null> {
     const userRepository = getRepository(queryRunner ?? this.datasource, UserEntity);
 
-    return userRepository.findOne({ where: { id } });
+    return userRepository.findOneBy({ id });
   }
 
   public async create(data: CreateUserDto, queryRunner?: QueryRunner): Promise<UserEntity> {
     const userRepository = getRepository(queryRunner ?? this.datasource, UserEntity);
 
-    const entity = userRepository.create({ ...data, birthdate: dateMessageToDate(data.birthdate) });
+    const entity = userRepository.create({
+      ...data,
+      birthdate: dateMessageToDbDate(data.birthdate),
+      passwordHash: await this.generatePasswordHash(data.password),
+    });
 
     return userRepository.save(entity);
   }
 
-  async update(user: UserEntity, attrs: Partial<UserEntity>, queryRunner?: QueryRunner): Promise<UserEntity> {
+  public async update(user: UserEntity, attrs: UpdateUserPayloadDto, queryRunner?: QueryRunner): Promise<UserEntity> {
     const result = await getRepository(queryRunner ?? this.datasource, UserEntity)
       .createQueryBuilder('users')
-      .update(UserEntity, attrs)
+      .update(UserEntity, {
+        ...attrs,
+        birthdate: attrs.birthdate ? dateMessageToDbDate(attrs.birthdate) : undefined,
+      })
       .whereEntity(user)
       .returning('*')
       .updateEntity(true)
       .execute();
 
     return plainToInstance(UserEntity, result.generatedMaps[0]);
+  }
+
+  private async generatePasswordHash(password: string): Promise<string> {
+    const bcryptRounds = toNumber(this.svcConfigService.get<number>('service.bcryptRounds')) ?? 7;
+    const passwordHash = await bcrypt.hash(password, bcryptRounds);
+
+    return passwordHash;
   }
 }

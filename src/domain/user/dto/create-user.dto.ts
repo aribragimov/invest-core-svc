@@ -1,8 +1,10 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsOptional, IsString, Length, ValidateNested } from 'class-validator';
 
 import { DateMessage } from '@proto-schema/google/type/date';
 import * as Proto from '@proto-schema/invest/svc/core/user';
+
+import { DateMessageDto } from 'src/common/dto';
 
 export class CreateUserDto implements Proto.CreateUserRequest {
   @IsString()
@@ -24,7 +26,8 @@ export class CreateUserDto implements Proto.CreateUserRequest {
   @Length(6, 100)
   password: string;
 
-  @Type(() => Date)
-  @IsDate()
-  birthdate: DateMessage;
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => DateMessageDto)
+  birthdate?: DateMessage;
 }

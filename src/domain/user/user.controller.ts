@@ -11,10 +11,10 @@ import {
   UserServiceControllerMethods,
 } from '@proto-schema/invest/svc/core';
 
-import { dateMessageToDate } from 'src/common/helpers';
 import { HandleErrorsInterceptor } from 'src/common/interceptors/grpc-error.interceptor';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { userDbToProto } from './helpers';
 import { UserService } from './user.service';
 
 @Controller()
@@ -29,7 +29,7 @@ export class UserController implements UserServiceController {
 
     return GetUserResponse.fromJSON({
       status: Status.fromJSON({}),
-      user,
+      user: userDbToProto(user),
     });
   }
 
@@ -38,7 +38,7 @@ export class UserController implements UserServiceController {
 
     return CreateUserResponse.fromJSON({
       status: Status.fromJSON({}),
-      user,
+      user: userDbToProto(user),
     });
   }
 
@@ -46,14 +46,11 @@ export class UserController implements UserServiceController {
     const user = await this.userService.getById(id);
     if (!user) throw new NotFoundException('User');
 
-    const updatedUser = await this.userService.update(user, {
-      ...payload,
-      birthdate: payload.birthdate ? dateMessageToDate(payload.birthdate) : undefined,
-    });
+    const updatedUser = await this.userService.update(user, payload);
 
     return UpdateUserResponse.fromJSON({
       status: Status.fromJSON({}),
-      user: updatedUser,
+      user: userDbToProto(updatedUser),
     });
   }
 }
