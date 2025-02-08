@@ -30,7 +30,7 @@ export async function initApp(): Promise<TestApp> {
           useFactory: async (configService: ConfigService) => ({
             transport: Transport.GRPC,
             options: {
-              package: 'invest.svc.setsvcname',
+              package: 'invest.svc.core',
               protoPath: configService.get('proto.paths'),
               url: 'localhost:5001',
               loader: {

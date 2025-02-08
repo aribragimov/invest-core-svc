@@ -15,13 +15,12 @@ export function getGrpcContext(metadata: Metadata): GrpcContext {
     context = RequestContext.decode(Buffer.from(rawContext[0]));
   }
 
-  if (!context || !context.companyId) {
+  if (!context) {
     throw new UnauthorizedException();
   }
 
   return {
     userId: context.userId,
-    companyId: context.companyId,
     sourceSvc: context.sourceSvc,
   };
 }

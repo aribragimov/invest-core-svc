@@ -38,7 +38,11 @@ test-unit:
 	${DOCKER_COMPOSE_RUN} -e "NODE_ENV=test" app yarn test
 
 test-e2e:
+ifeq ($(file),)
 	${DOCKER_COMPOSE_RUN} -e "NODE_ENV=test" app yarn test:e2e
+else
+	${DOCKER_COMPOSE_RUN} -e "NODE_ENV=test" app yarn test:e2e -- ${file}
+endif
 
 lint:
 	${DOCKER_COMPOSE_RUN} -e "NODE_ENV=test" app yarn lint
