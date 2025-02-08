@@ -52,6 +52,24 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
+--
+-- Name: portfolios_broker_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.portfolios_broker_enum AS ENUM (
+    'VTB'
+);
+
+
+--
+-- Name: portfolios_currency_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.portfolios_currency_enum AS ENUM (
+    'RUB'
+);
+
+
 SET default_tablespace = '';
 
 --
@@ -86,6 +104,23 @@ ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
 
 
 --
+-- Name: portfolios; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.portfolios (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    created_at timestamp(3) with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(3) with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp(3) with time zone,
+    name character varying(50) NOT NULL,
+    description text,
+    currency public.portfolios_currency_enum NOT NULL,
+    broker public.portfolios_broker_enum NOT NULL,
+    user_id uuid
+);
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -108,6 +143,14 @@ CREATE TABLE public.users (
 --
 
 ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
+
+
+--
+-- Name: portfolios PK_488aa6e9b219d1d9087126871ae; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portfolios
+    ADD CONSTRAINT "PK_488aa6e9b219d1d9087126871ae" PRIMARY KEY (id);
 
 
 --
@@ -140,6 +183,21 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE (email);
+
+
+--
+-- Name: IDX_57fba72db5ac40768b40f0ecfa; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "IDX_57fba72db5ac40768b40f0ecfa" ON public.portfolios USING btree (user_id);
+
+
+--
+-- Name: portfolios FK_57fba72db5ac40768b40f0ecfa1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.portfolios
+    ADD CONSTRAINT "FK_57fba72db5ac40768b40f0ecfa1" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

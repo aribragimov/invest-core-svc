@@ -1,4 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany, Relation } from 'typeorm';
+
+import { PortfolioEntity } from 'src/domain/portfolio/portfolio.entity';
 
 import { BaseEntity } from 'src/common';
 
@@ -21,4 +23,7 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'date' })
   public birthdate: string;
+
+  @OneToMany(() => PortfolioEntity, portfolio => portfolio.user, { cascade: true })
+  portfolios: Relation<PortfolioEntity[]>;
 }

@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package invest.svc.core;
+
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "google/type/date.proto";
+
+service PortfolioService {
+  rpc GetPortfolios(GetPortfoliosRequest) returns (GetPortfoliosResponse) {}
+  rpc CreatePortfolio(CreatePortfolioRequest) returns (CreatePortfolioResponse) {}
+  rpc UpdatePortfolio(UpdatePortfolioRequest) returns (UpdatePortfolioResponse) {}
+}
+
+// ============================================================================
+// GetPortfolios
+// ============================================================================
+message GetPortfoliosRequest {
+  string user_id = 1;
+}
+
+message GetPortfoliosResponse {
+  google.rpc.Status status = 1;
+  repeated Portfolio portfolios = 2;
+}
+
+// ============================================================================
+// CreatePortfolio
+// ============================================================================
+message CreatePortfolioRequest {
+  optional string name = 1;
+  optional string description = 2;
+  string user_id = 3;
+  Broker broker = 4;
+  Currency currency = 5;
+}
+
+message CreatePortfolioResponse {
+  google.rpc.Status status = 1;
+  optional Portfolio Portfolio = 2;
+}
+
+// ============================================================================
+// UpdatePortfolio
+// ============================================================================
+message UpdatePortfolioRequest {
+  message Payload {
+    optional string name = 1;
+    optional string description = 2;
+  }
+  string id = 1;
+  Payload payload = 2;
+  google.protobuf.FieldMask mask = 3;
+}
+
+message UpdatePortfolioResponse {
+  google.rpc.Status status = 1;
+  optional Portfolio Portfolio = 2;
+}
+
+// ============================================================================
+// Portfolio
+// ============================================================================
+message Portfolio {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  string user_id = 4;
+  Broker broker = 5;
+  Currency currency = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+enum PortfolioCurrency {
+  PORTFOLIO_CURRENCY_RUB = 0;
+}
+  
+enum PortfolioBroker {
+  PORTFOLIO_CURRENCY_VTB = 0;
+}

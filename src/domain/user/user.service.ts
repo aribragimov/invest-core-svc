@@ -34,12 +34,12 @@ export class UserService {
     return userRepository.save(entity);
   }
 
-  public async update(user: UserEntity, attrs: UpdateUserPayloadDto, queryRunner?: QueryRunner): Promise<UserEntity> {
+  public async update(user: UserEntity, payload: UpdateUserPayloadDto, queryRunner?: QueryRunner): Promise<UserEntity> {
     const result = await getRepository(queryRunner ?? this.datasource, UserEntity)
       .createQueryBuilder('users')
       .update(UserEntity, {
-        ...attrs,
-        birthdate: attrs.birthdate ? dateMessageToDbDate(attrs.birthdate) : undefined,
+        ...payload,
+        birthdate: payload.birthdate ? dateMessageToDbDate(payload.birthdate) : undefined,
       })
       .whereEntity(user)
       .returning('*')
