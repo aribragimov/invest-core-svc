@@ -3,9 +3,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
+import { PortfolioModule } from './domain/portfolio';
 import { UserModule } from './domain/user';
-import { HealthController } from './health/health.controller';
 import { SvcConfigModule } from './config';
+import { HealthController } from './health';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SvcConfigModule } from './config';
         configService.get('database'),
     }),
     UserModule,
+    PortfolioModule,
   ],
   controllers: [HealthController],
 })
