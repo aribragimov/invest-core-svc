@@ -112,11 +112,11 @@ CREATE TABLE public.portfolios (
     created_at timestamp(3) with time zone DEFAULT now() NOT NULL,
     updated_at timestamp(3) with time zone DEFAULT now() NOT NULL,
     deleted_at timestamp(3) with time zone,
+    user_id uuid NOT NULL,
     name character varying(50) NOT NULL,
     description text,
     currency public.portfolios_currency_enum NOT NULL,
-    broker public.portfolios_broker_enum NOT NULL,
-    user_id uuid
+    broker public.portfolios_broker_enum NOT NULL
 );
 
 

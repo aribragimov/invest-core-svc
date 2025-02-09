@@ -5,7 +5,6 @@ package invest.svc.core;
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/rpc/status.proto";
-import "google/type/date.proto";
 
 service PortfolioService {
   rpc GetPortfolios(GetPortfoliosRequest) returns (GetPortfoliosResponse) {}
@@ -17,7 +16,7 @@ service PortfolioService {
 // GetPortfolios
 // ============================================================================
 message GetPortfoliosRequest {
-  string user_id = 1;
+  repeated string user_ids = 1;
 }
 
 message GetPortfoliosResponse {
@@ -32,13 +31,13 @@ message CreatePortfolioRequest {
   optional string name = 1;
   optional string description = 2;
   string user_id = 3;
-  Broker broker = 4;
-  Currency currency = 5;
+  PortfolioBroker broker = 4;
+  PortfolioCurrency currency = 5;
 }
 
 message CreatePortfolioResponse {
   google.rpc.Status status = 1;
-  optional Portfolio Portfolio = 2;
+  optional Portfolio portfolio = 2;
 }
 
 // ============================================================================
@@ -56,7 +55,7 @@ message UpdatePortfolioRequest {
 
 message UpdatePortfolioResponse {
   google.rpc.Status status = 1;
-  optional Portfolio Portfolio = 2;
+  optional Portfolio portfolio = 2;
 }
 
 // ============================================================================
@@ -67,16 +66,16 @@ message Portfolio {
   optional string name = 2;
   optional string description = 3;
   string user_id = 4;
-  Broker broker = 5;
-  Currency currency = 6;
+  PortfolioBroker broker = 5;
+  PortfolioCurrency currency = 6;
   google.protobuf.Timestamp created_at = 7;
   google.protobuf.Timestamp updated_at = 8;
 }
 
 enum PortfolioCurrency {
-  PORTFOLIO_CURRENCY_RUB = 0;
+  RUB = 0;
 }
   
 enum PortfolioBroker {
-  PORTFOLIO_CURRENCY_VTB = 0;
+  VTB = 0;
 }

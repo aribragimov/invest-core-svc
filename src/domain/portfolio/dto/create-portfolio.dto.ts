@@ -1,33 +1,23 @@
-import { Type } from 'class-transformer';
-import { IsEmail, IsOptional, IsString, Length, ValidateNested } from 'class-validator';
+import { IsEnum, IsOptional, IsString, Length } from 'class-validator';
 
-import { DateMessage } from '@proto-schema/google/type/date';
-import * as Proto from '@proto-schema/invest/svc/core/user';
+import { CreatePortfolioRequest, PortfolioBroker, PortfolioCurrency } from '@proto-schema/invest/svc/core';
 
-import { DateMessageDto } from 'src/common/dto';
-
-export class CreatePortfolioDto implements Proto.CreateUserRequest {
+export class CreatePortfolioDto implements CreatePortfolioRequest {
+  @IsOptional()
   @IsString()
   @Length(1, 50)
-  firstName: string;
-
-  @IsString()
-  @Length(1, 50)
-  lastName: string;
-
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  @Length(1, 50)
-  login: string;
-
-  @IsString()
-  @Length(6, 100)
-  password: string;
+  name?: string;
 
   @IsOptional()
-  @ValidateNested()
-  @Type(() => DateMessageDto)
-  birthdate?: DateMessage;
+  @IsString()
+  description?: string;
+
+  @IsString()
+  userId: string;
+
+  @IsEnum(PortfolioBroker)
+  broker: PortfolioBroker;
+
+  @IsEnum(PortfolioCurrency)
+  currency: PortfolioCurrency;
 }

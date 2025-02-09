@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddPortfolios1739030096347 implements MigrationInterface {
-  name = 'AddPortfolios1739030096347';
+export class AddPortfolios1739108772640 implements MigrationInterface {
+  name = 'AddPortfolios1739108772640';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
@@ -16,11 +16,11 @@ export class AddPortfolios1739030096347 implements MigrationInterface {
                 "created_at" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP(3) WITH TIME ZONE NOT NULL DEFAULT now(),
                 "deleted_at" TIMESTAMP(3) WITH TIME ZONE,
+                "user_id" uuid NOT NULL,
                 "name" character varying(50) NOT NULL,
                 "description" text,
                 "currency" "public"."portfolios_currency_enum" NOT NULL,
                 "broker" "public"."portfolios_broker_enum" NOT NULL,
-                "user_id" uuid,
                 CONSTRAINT "PK_488aa6e9b219d1d9087126871ae" PRIMARY KEY ("id")
             )
         `);
