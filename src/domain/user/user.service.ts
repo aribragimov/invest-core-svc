@@ -7,7 +7,7 @@ import { DataSource, QueryRunner } from 'typeorm';
 
 import { SvcConfigService } from 'src/config';
 
-import { dateMessageToDbDate, getRepository } from 'src/common/helpers';
+import { buildDataFromPayloadAndMask, dateMessageToDbDate, getRepository } from 'src/common/helpers';
 
 import { CreateUserDto, UpdateUserPayloadDto } from './dto';
 import { UserEntity } from './user.entity';
@@ -34,7 +34,14 @@ export class UserService {
     return userRepository.save(entity);
   }
 
-  public async update(user: UserEntity, attrs: UpdateUserPayloadDto, queryRunner?: QueryRunner): Promise<UserEntity> {
+  public async update(
+    user: UserEntity,
+    payload: UpdateUserPayloadDto,
+    mask: string[],
+    queryRunner?: QueryRunner,
+  ): Promise<UserEntity> {
+    const attrs = buildDataFromPayloadAndMask({ payload, mask });
+
     const result = await getRepository(queryRunner ?? this.datasource, UserEntity)
       .createQueryBuilder('users')
       .update(UserEntity, {

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package invest.svc.core;
 
+import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/rpc/status.proto";
 import "google/type/date.proto";
@@ -52,6 +53,7 @@ message UpdateUserRequest {
   }
   string id = 1;
   Payload payload = 2;
+  google.protobuf.FieldMask mask = 3;
 }
 
 message UpdateUserResponse {

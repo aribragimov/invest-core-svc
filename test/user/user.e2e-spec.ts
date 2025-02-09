@@ -207,6 +207,8 @@ describe('User', () => {
       birthdate: dbDateToDateMessage(updateData.birthdate),
     };
 
+    const mask = ['firstName', 'lastName', 'birthdate'];
+
     it('returns updated user', async () => {
       const user = await createUser(userRepository);
 
@@ -215,6 +217,7 @@ describe('User', () => {
           {
             id: user.id,
             payload: requestPayload,
+            mask,
           },
           metadata,
         ),
@@ -232,7 +235,9 @@ describe('User', () => {
     });
 
     it('returns error when user does not exist', async () => {
-      const result = await firstValueFrom(userServiceClient.updateUser({ id: randomUUID() }, metadata));
+      const result = await firstValueFrom(
+        userServiceClient.updateUser({ id: randomUUID(), payload: requestPayload, mask }, metadata),
+      );
 
       expect(result).toEqual({
         user: undefined,
@@ -259,7 +264,7 @@ describe('User', () => {
       const user1 = await createUser(userRepository, UserFactory.deleted().build());
 
       const result = await firstValueFrom(
-        userServiceClient.updateUser({ id: user1.id, payload: requestPayload }, metadata),
+        userServiceClient.updateUser({ id: user1.id, payload: requestPayload, mask }, metadata),
       );
 
       expect(result).toEqual({

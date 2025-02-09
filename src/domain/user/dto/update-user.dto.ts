@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsUUID, ValidateNested } from 'class-validator';
+import { IsArray, IsString, IsUUID, ValidateNested } from 'class-validator';
 
 import * as Proto from '@proto-schema/invest/svc/core/user';
 
@@ -12,4 +12,8 @@ export class UpdateUserDto implements Proto.UpdateUserRequest {
   @ValidateNested()
   @Type(() => UpdateUserPayloadDto)
   payload: UpdateUserPayloadDto;
+
+  @IsArray()
+  @IsString({ each: true })
+  public mask: string[];
 }

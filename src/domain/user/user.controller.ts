@@ -42,11 +42,11 @@ export class UserController implements UserServiceController {
     });
   }
 
-  public async updateUser(@Payload() { id, payload }: UpdateUserDto): Promise<UpdateUserResponse> {
+  public async updateUser(@Payload() { id, payload, mask }: UpdateUserDto): Promise<UpdateUserResponse> {
     const user = await this.userService.getById(id);
     if (!user) throw new NotFoundException('User');
 
-    const updatedUser = await this.userService.update(user, payload);
+    const updatedUser = await this.userService.update(user, payload, mask);
 
     return UpdateUserResponse.fromJSON({
       status: Status.fromJSON({}),
