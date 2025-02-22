@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 11.14
--- Dumped by pg_dump version 17.2
+-- Dumped by pg_dump version 17.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -70,6 +70,16 @@ CREATE TYPE public.portfolios_currency_enum AS ENUM (
 );
 
 
+--
+-- Name: transactions_type_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.transactions_type_enum AS ENUM (
+    'BUY',
+    'SELL'
+);
+
+
 SET default_tablespace = '';
 
 --
@@ -121,6 +131,26 @@ CREATE TABLE public.portfolios (
 
 
 --
+-- Name: transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transactions (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    created_at timestamp(3) with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(3) with time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp(3) with time zone,
+    ticket character varying(10) NOT NULL,
+    asset_name character varying(100) NOT NULL,
+    portfolio_id uuid NOT NULL,
+    price numeric(18,4) NOT NULL,
+    quantity integer NOT NULL,
+    date timestamp(3) with time zone NOT NULL,
+    type public.transactions_type_enum NOT NULL,
+    note text
+);
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -162,6 +192,14 @@ ALTER TABLE ONLY public.migrations
 
 
 --
+-- Name: transactions PK_a219afd8dd77ed80f5a862f1db9; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT "PK_a219afd8dd77ed80f5a862f1db9" PRIMARY KEY (id);
+
+
+--
 -- Name: users PK_a3ffb1c0c8416b9fc6f907b7433; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -186,6 +224,13 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: IDX_10ecbf27ef597ed0dd0b2794bc; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "IDX_10ecbf27ef597ed0dd0b2794bc" ON public.transactions USING btree (portfolio_id, date);
+
+
+--
 -- Name: IDX_57fba72db5ac40768b40f0ecfa; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -198,6 +243,14 @@ CREATE INDEX "IDX_57fba72db5ac40768b40f0ecfa" ON public.portfolios USING btree (
 
 ALTER TABLE ONLY public.portfolios
     ADD CONSTRAINT "FK_57fba72db5ac40768b40f0ecfa1" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: transactions FK_6a323de73ef7d943df41a4fdd20; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT "FK_6a323de73ef7d943df41a4fdd20" FOREIGN KEY (portfolio_id) REFERENCES public.portfolios(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

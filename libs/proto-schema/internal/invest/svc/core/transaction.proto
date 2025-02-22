@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package invest.svc.core;
+
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+import "invest/common/paging.proto";
+import "invest/common/sorting.proto";
+
+service TransactionService {
+  rpc GetTransactionsByCursor(GetTransactionsByCursorRequest) returns (GetTransactionsByCursorResponse) {}
+  rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse) {}
+}
+
+// ============================================================================
+// GetTransactionsByCursor
+// ============================================================================
+message GetTransactionsByCursorRequest {
+  message Filter {
+    string portfolio_id = 1;
+  }
+
+  message Sorting {
+    SortingField field = 1;
+    invest.common.SortingDirection direction = 2;
+  }
+
+  enum SortingField {
+    CREATED_AT = 0;
+  }
+
+  Filter filter = 1;
+  invest.common.CursorPaging paging = 2;
+  optional Sorting sorting = 3;
+}
+
+message GetTransactionsByCursorResponse {
+  google.rpc.Status status = 1;
+  repeated TransactionEdge edges = 2;
+  optional invest.common.CursorPageInfo page_info = 3;
+}
+
+message TransactionEdge {
+  Transaction node = 1;
+  string cursor = 2;
+}
+
+// ============================================================================
+// CreateTransaction
+// ============================================================================
+message CreateTransactionRequest {
+  string ticket = 1;
+  string assetName = 2;
+  string portfolioId = 3;
+  double price = 4;
+  int32 quantity = 5;
+  google.protobuf.Timestamp date = 6;
+  TransactionType type = 7;
+  optional string note = 8;
+}
+
+message CreateTransactionResponse {
+  google.rpc.Status status = 1;
+  optional Transaction transaction = 2;
+}
+
+// ============================================================================
+// Transaction
+// ============================================================================
+message Transaction {
+  string id = 1;
+  string ticket = 2;
+  string assetName = 3;
+  string portfolioId = 4;
+  double price = 5;
+  int32 quantity = 6;
+  google.protobuf.Timestamp date = 7;
+  TransactionType type = 8;
+  optional string note = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+
+enum TransactionType {
+  BUY = 0;
+  SELL = 1;
+}

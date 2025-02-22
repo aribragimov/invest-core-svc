@@ -8,4 +8,5 @@ export default registerAs('service', () => ({
   name: process.env.SERVICE_NAME,
   databaseUrl: process.env.DATABASE_URL,
   bcryptRounds: process.env.BCRYPT_ROUNDS,
+  logLevel: process.env.LOG_LEVEL,
 }));

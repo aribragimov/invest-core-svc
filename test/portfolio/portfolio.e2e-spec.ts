@@ -58,7 +58,7 @@ describe('Portfolio', () => {
       const result = await firstValueFrom(
         portfolioServiceClient.getPortfolios(
           {
-            userIds: [user.id],
+            userId: user.id,
           },
           metadata,
         ),
@@ -77,7 +77,7 @@ describe('Portfolio', () => {
     });
 
     it('returns empty array when portfolio does not exist', async () => {
-      const result = await firstValueFrom(portfolioServiceClient.getPortfolios({ userIds: [randomUUID()] }, metadata));
+      const result = await firstValueFrom(portfolioServiceClient.getPortfolios({ userId: randomUUID() }, metadata));
 
       expect(result).toEqual(
         Proto.GetPortfoliosResponse.fromJSON({
@@ -95,7 +95,7 @@ describe('Portfolio', () => {
       const user = await createUser(userRepository);
       await createPortfolio(portfolioRepository, PortfolioFactory.deleted().build({ userId: user.id }));
 
-      const result = await firstValueFrom(portfolioServiceClient.getPortfolios({ userIds: [user.id] }, metadata));
+      const result = await firstValueFrom(portfolioServiceClient.getPortfolios({ userId: user.id }, metadata));
 
       expect(result).toEqual(
         Proto.GetPortfoliosResponse.fromJSON({

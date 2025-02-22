@@ -4,9 +4,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { PortfolioModule } from './domain/portfolio';
+import { TransactionModule } from './domain/transaction';
 import { UserModule } from './domain/user';
 import { SvcConfigModule } from './config';
 import { HealthController } from './health';
+
+const modules = [UserModule, PortfolioModule, TransactionModule];
 
 @Module({
   imports: [
@@ -20,8 +23,7 @@ import { HealthController } from './health';
       useFactory: (configService: ConfigService<{ database: TypeOrmModuleOptions }, true>) =>
         configService.get('database'),
     }),
-    UserModule,
-    PortfolioModule,
+    ...modules,
   ],
   controllers: [HealthController],
 })

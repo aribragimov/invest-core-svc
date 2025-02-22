@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { plainToInstance } from 'class-transformer';
-import { DataSource, In, QueryRunner } from 'typeorm';
+import { DataSource, QueryRunner } from 'typeorm';
 
 import { buildDataFromPayloadAndMask, getRepository } from 'src/common/helpers';
 
@@ -18,10 +18,10 @@ export class PortfolioService {
     return portfolioRepository.findOneBy({ id });
   }
 
-  public async getByUserIds(userIds: string[], queryRunner?: QueryRunner): Promise<PortfolioEntity[]> {
+  public async getManyByUserId(userId: string, queryRunner?: QueryRunner): Promise<PortfolioEntity[]> {
     const portfolioRepository = getRepository(queryRunner ?? this.datasource, PortfolioEntity);
 
-    return portfolioRepository.findBy({ userId: In(userIds) });
+    return portfolioRepository.findBy({ userId });
   }
 
   public async create(data: CreatePortfolioDto, queryRunner?: QueryRunner): Promise<PortfolioEntity> {

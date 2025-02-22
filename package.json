@@ -50,6 +50,7 @@
     "geojson": "^0.5.0",
     "jsona": "^1.9.7",
     "lodash": "^4.17.21",
+    "luxon": "^3.5.0",
     "pg": "^8.7.3",
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",

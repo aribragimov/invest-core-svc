@@ -16,7 +16,7 @@ service PortfolioService {
 // GetPortfolios
 // ============================================================================
 message GetPortfoliosRequest {
-  repeated string user_ids = 1;
+  string user_id = 1;
 }
 
 message GetPortfoliosResponse {

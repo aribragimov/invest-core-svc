@@ -22,8 +22,8 @@ import { PortfolioService } from './portfolio.service';
 export class PortfolioController implements PortfolioServiceController {
   constructor(private readonly portfolioService: PortfolioService) {}
 
-  public async getPortfolios({ userIds }: GetPortfoliosRequest): Promise<GetPortfoliosResponse> {
-    const portfolios = await this.portfolioService.getByUserIds(userIds);
+  public async getPortfolios({ userId }: GetPortfoliosRequest): Promise<GetPortfoliosResponse> {
+    const portfolios = await this.portfolioService.getManyByUserId(userId);
 
     return GetPortfoliosResponse.fromJSON({
       status: Status.fromJSON({}),

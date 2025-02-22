@@ -125,9 +125,9 @@ export class HandleErrorsInterceptor implements NestInterceptor {
   public intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
       catchError(err => {
-        if (this.configService.get('LOG_LEVEL') === 'debug') {
+        if (this.configService.get('service.logLevel') === 'debug') {
           // eslint-disable-next-line no-console
-          console.log(err);
+          console.debug(err);
         }
 
         const status = buildGrpcError(err);

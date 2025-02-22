@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package invest.common;
+
+enum SortingDirection {
+  ASC = 0;
+  DESC = 1;
+}

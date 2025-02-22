@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package invest.common;
+
+message CursorPaging {
+  optional string ending_before = 1;
+  optional string starting_after = 2;
+  int32 limit = 3;
+}
+
+message CursorPageInfo {
+  bool has_next_page = 1;
+  bool has_previous_page = 2;
+  optional string start_cursor = 3;
+  optional string end_cursor = 4;
+}
